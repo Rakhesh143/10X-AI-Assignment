@@ -65,3 +65,57 @@ Whisper provides accurate speech-to-text conversion and supports multiple audio 
 ### Install Required Dependencies
 ```bash
 pip install transformers torch sentencepiece openai-whisper ffmpeg-python
+---
+
+##  Task 2: Speech-to-Speech AI Assistant (LUCA)
+
+###  Overview
+Task 2 focuses on building a simple **speech-to-speech AI assistant** named **LUCA**.  
+The objective of this task is to demonstrate the complete AI interaction loop:
+- Voice input
+- Speech recognition
+- Language understanding
+- Voice-based response
+
+---
+
+###  Model & Tools Used
+- **Speech-to-Text:** OpenAI Whisper
+- **Text Generation:** Google FLAN-T5 (small)
+- **Text-to-Speech:** pyttsx3
+- **Programming Language:** Python 3.10
+
+---
+
+### File
+- `luca_assistant.py` – Implements the LUCA voice assistant
+
+---
+
+###  How LUCA Works
+1. Records user voice input through microphone  
+2. Converts speech to text using Whisper  
+3. Generates a response using a language model  
+4. Converts the response back to speech using TTS  
+
+---
+
+###  Speech Recognition Optimization (IMPORTANT)
+
+**Speech recognition accuracy was improved by enforcing language constraints and reducing model randomness using Whisper configuration parameters.**
+
+The following optimizations were applied:
+- Forced English language detection (`language="en"`)
+- Reduced randomness using `temperature=0.0`
+- Disabled contextual hallucinations using `condition_on_previous_text=False`
+- Used FP32 inference for CPU compatibility
+
+These improvements helped reduce transcription ambiguity for short spoken commands and increased response reliability.
+
+---
+
+###  How to Run Task 2
+
+```bash
+py -3.10 luca_assistant.py
+
