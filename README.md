@@ -119,3 +119,90 @@ These improvements helped reduce transcription ambiguity for short spoken comman
 ```bash
 py -3.10 luca_assistant.py
 
+
+# Task 3 – School AI Assistant (Intelligent Document-Based RAG)
+
+## Overview
+This project implements a **School AI Assistant** using a **Retrieval-Augmented Generation (RAG)** approach.
+The assistant answers questions **strictly using the provided school PDF document** and does not use
+any external knowledge.
+
+A key strength of this system is that **users do not need to ask fixed or exact questions**.
+Even natural and indirect questions are correctly understood and answered **as long as the information
+exists in the PDF**.
+
+---
+
+## Key Highlights (IMPORTANT)
+- Users do **NOT** need to ask exact section names like:
+  - “Exam Schedule”
+  - “School Rules”
+
+- The assistant can correctly answer **natural questions**, such as:
+  - When is Unit Test 1?
+  - What is the mathematics time period?
+  - Annual tuition fee entha?
+  - How many students are there?
+  - Who has the highest marks?
+
+If the information is present in the PDF, the assistant **will retrieve and return the correct answer**.
+
+---
+
+## Features
+- Answers **any question whose information exists in the PDF**
+- Supports:
+  - School rules
+  - Fee structure (annual tuition fee, exam fee, transport fee)
+  - Exam schedule (Unit Tests, Mid-Terms, Final Exams)
+  - Timetable (subject-wise queries like Mathematics, Science, etc.)
+  - Student analytics (count, highest marks, lowest attendance)
+- Understands **different ways of asking the same question**
+- Safely rejects non-document or emotional queries
+- Prevents hallucination and external knowledge leakage
+
+---
+
+## Architecture
+- **PDF Loader:** pypdf
+- **Text Chunking:** Fixed-size overlapping chunks
+- **Embeddings:** sentence-transformers (all-MiniLM-L6-v2)
+- **Vector Store:** FAISS
+- **Retrieval Type:** Extractive RAG with intent-aware section detection
+- **Answer Strategy:**
+  - Intent detection
+  - Semantic retrieval using embeddings
+  - Section-based extraction
+  - Strict document grounding
+
+---
+
+## Workflow
+1. Extract text from the school PDF.
+2. Split the text into overlapping chunks.
+3. Generate embeddings and store them in a FAISS vector index.
+4. When a question is asked:
+   - User intent is detected even if the wording is informal.
+   - Relevant document sections are retrieved using semantic similarity.
+   - Only the required information is extracted and returned.
+5. If the information is **not present in the PDF**, the assistant responds with:
+   
+   **"I don't know based on the provided documents."**
+
+---
+
+## How to Run
+
+### Requirements
+- Python 3.10
+- Required libraries:
+  - pypdf
+  - sentence-transformers
+  - faiss-cpu
+  - numpy
+
+### Run Command
+```bash
+py -3.10 school_ai_assistant.py
+
+
